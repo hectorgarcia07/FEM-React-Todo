@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import './style.css'
+
+import Header from './components/Header'
+import NoteForm from './components/NoteForm'
+import TodoList from './components/TodoList'
+import TodoInfo from './components/TodoInfo'
+import TodoFilter from './components/TodoFilter'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="container">
+      <div className='background-container'>
+        <div className="header-container width-container">
+          <Header />
+          <NoteForm />
+          <TodoList />
+          <TodoInfo />
+          <TodoFilter />
+        </div>
+        <p className="todo-info">Drag and drop to reorder list</p>
+      </div>
+    </main>
   );
 }
 

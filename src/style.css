@@ -1,0 +1,374 @@
+:root[data-theme="dark-theme"] {
+  --background-color: hsl(235, 21%, 11%);
+  --border-bottom-color: hsl(237, 14%, 26%);
+  --node-background-color: hsl(235, 24%, 19%);
+  --form-font-color: hsl(234, 11%, 52%);
+  --fadded-text-color: hsl(233, 14%, 35%);
+  --font-color: hsl(234, 39%, 85%);
+  --title-color: white;
+  --start-gradient: hsl(192, 100%, 67%);
+  --end-gradient: hsl(280, 87%, 65%);
+  --option-hovor-color: hsl(236, 33%, 92%);
+  --active-option-color: hsl(220, 98%, 61%);
+  --background-path-mobile: url(images/bg-mobile-dark.jpg);
+  --background-path-desktop: url(images/bg-desktop-dark.jpg);
+  --icon-plus: url(images/icon-plus-light.svg);
+  --theme-icon: url(images/icon-sun.svg);
+  --focused-checkedbox: white;
+}
+
+:root[data-theme="light-theme"] {
+  --background-color: hsl(236, 33%, 92%);
+  --border-bottom-color: hsl(233, 11%, 84%);
+  --node-background-color: hsl(0, 0%, 98%);
+  --form-font-color: hsl(234, 11%, 52%);
+  --fadded-text-color: hsl(0, 0%, 55%);
+  --font-color: hsl(0, 0%, 35%);
+  --title-color: white;
+  --start-gradient: hsl(192, 100%, 67%);
+  --end-gradient: hsl(280, 87%, 65%);
+  --option-hovor-color: hsl(235, 19%, 35%);
+  --active-option-color: hsl(220, 98%, 61%);
+  --background-path-mobile: url(images/bg-mobile-light.jpg);
+  --background-path-desktop: url(images/bg-desktop-light.jpg);
+  --icon-plus: url(images/icon-plus-dark.svg);
+  --theme-icon: url(images/icon-moon.svg);
+  --focused-checkedbox: black;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Outfit", sans-serif;
+  background-color: var(--background-color);
+}
+
+ul {
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+img {
+  display: block; /* without it this will display a small gap */
+  margin: 0 auto;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  border: 0px;
+}
+
+.width-container {
+  width: 87%;
+  margin: 0 auto;
+}
+
+.background-container {
+  background: var(--background-path-mobile) no-repeat;
+}
+
+.header-container {
+  padding-top: 1.5rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.header-display {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-title {
+  font-weight: 700;
+  font-size: 1.7rem;
+  color: var(--title-color);
+  letter-spacing: 0.25em;
+  word-spacing: -0.5em; /* make note that -0.25 is most space on font */
+  margin: 0;
+}
+
+.theme-container {
+  align-self: end;
+}
+
+.svg-theme-btn {
+  background: var(--theme-icon) no-repeat center;
+}
+
+.svg-theme-icon {
+  width: 80%;
+  color: black;
+  margin-left: auto;
+  background: var(--theme-icon) no-repeat center right;
+}
+
+.note-input {
+  display: flex;
+  font-size: 1rem;
+  padding: 0.9em 1em;
+  background-color: var(--node-background-color);
+  border-radius: 8px;
+  margin: 2rem 0 0.8rem;
+}
+
+.input-note {
+  width: 100%;
+  margin-left: 0.3em;
+  color: var(--font-color);
+  background-color: var(--node-background-color);
+  border: none;
+
+  font-size: 0.75rem;
+}
+
+.todo-list-container {
+  margin-top: 0.2rem;
+  padding: 0;
+  overflow: auto;
+  max-height: 335px;
+}
+
+.todo-node {
+  display: flex;
+  padding: 0 0.8rem 0 1rem;
+  background-color: var(--node-background-color);
+  color: var(--font-color);
+  font-size: 1rem;
+  border-bottom: 1px solid var(--border-bottom-color);
+}
+
+.todo-node:hover {
+  cursor: pointer;
+}
+
+.todo-node:first-child {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.todo-node:last-child {
+  border-bottom: none;
+}
+
+.todo-btn {
+  border-radius: 50%;
+  padding: 0.8rem;
+  border: 1px solid var(--fadded-text-color);
+}
+
+.todo-description {
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.cross-svg {
+  margin-left: auto;
+  background: url(images/icon-cross.svg) no-repeat center;
+  flex-basis: 1rem;
+}
+
+.todo-label input[type="checkbox"] {
+  display: absolute;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  height: 0;
+  width: 0;
+  pointer-events: none;
+}
+
+li > label {
+  user-select: none;
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+label > p::before {
+  content: "";
+  transition: 0.2s;
+  margin-right: 0.8rem;
+  border-radius: 50%;
+  padding: 0.6rem;
+  border: 1px solid var(--fadded-text-color);
+  display: inline-block;
+}
+
+.todo-label input[type="checkbox"]:hover + p::before {
+  background: linear-gradient(
+        var(--node-background-color),
+        var(--node-background-color)
+      )
+      padding-box,
+    linear-gradient(90deg, var(--start-gradient), var(--end-gradient))
+      border-box;
+  border-radius: 50%;
+  border-color: transparent;
+}
+
+.todo-label input[type="checkbox"]:hover:checked + p::before {
+  background: no-repeat center url("images/icon-check.svg") padding-box,
+    linear-gradient(90deg, var(--start-gradient), var(--end-gradient))
+      border-box;
+  border-radius: 50%;
+  border-color: var(--node-background-color);
+}
+
+input:checked + p::before {
+  background: no-repeat center url("images/icon-check.svg"),
+    linear-gradient(90deg, var(--start-gradient), var(--end-gradient));
+  border-color: var(--node-background-color);
+}
+
+input:focus + p::before {
+  border-color: var(--focused-checkedbox);
+}
+
+.svg-theme-btn {
+  background: var(--theme-icon) no-repeat center;
+  border: none;
+}
+
+.svg-plus-btn {
+  border: none;
+  background: var(--icon-plus) no-repeat center;
+}
+
+/* ------  */
+
+.todo-label {
+  display: flex;
+  width: 100%;
+  cursor: pointer;
+  padding: 1rem 0;
+}
+
+/* ------------------------------------------ */
+
+.todo-detail-node {
+  justify-content: space-between;
+  color: hsl(234, 11%, 52%);
+  padding: 0;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border: none;
+}
+
+.todo-detail {
+  font-size: 0.7rem;
+  align-self: center;
+  color: var(--form-font-color);
+  padding: 1rem;
+}
+
+.todo-clear {
+  padding: 1rem;
+  text-decoration: none;
+  color: inherit;
+  color: var(--form-font-color);
+}
+
+.todo-detail:hover {
+  color: var(--option-hovor-color);
+}
+
+.todo-clear:hover {
+  color: var(--option-hovor-color);
+}
+
+.todo-filter {
+  justify-content: space-evenly;
+  border: none;
+  border-radius: 5px;
+  margin-top: 1rem;
+  padding: 0;
+}
+
+.todo-filter:last-child {
+  border-radius: 0px;
+}
+
+.todo-filter-option {
+  color: var(--fadded-text-color);
+  font-weight: 800;
+  padding: 1rem 0.5rem;
+}
+
+.todo-filter-option:hover {
+  color: var(--option-hovor-color);
+}
+
+.todo-filter-container {
+  display: flex;
+}
+
+.active-option {
+  color: var(--active-option-color);
+}
+
+.active-option:hover {
+  color: var(--active-option-color);
+}
+
+.todo-info {
+  text-align: center;
+  color: var(--fadded-text-color);
+  padding: 2rem;
+}
+
+.desktop-items-left,
+.desktop-clear-todo {
+  display: none;
+}
+
+.todo-compleated {
+  text-decoration: line-through;
+  color: var(--fadded-text-color);
+}
+
+@media only screen and (max-width: 390px) {
+  .desktop-items-left,
+  .desktop-clear-todo {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 375px) {
+  .width-container {
+    max-width: 560px;
+  }
+
+  .mobile-info {
+    display: none;
+  }
+
+  .desktop-items-left,
+  .desktop-clear-todo {
+    display: block;
+  }
+
+  .background-container {
+    background-image: var(--background-path-desktop);
+    max-height: 200px;
+  }
+
+  .desktop-clear-todo {
+    margin-left: auto;
+  }
+
+  .desktop-items-left {
+    margin-right: auto;
+  }
+}
