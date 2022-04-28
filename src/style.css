@@ -131,8 +131,9 @@ button {
   color: var(--font-color);
   background-color: var(--node-background-color);
   border: none;
-
+  transition: background-color 0.5s;
   font-size: 0.75rem;
+  outline: none;
 }
 
 .todo-list-container {

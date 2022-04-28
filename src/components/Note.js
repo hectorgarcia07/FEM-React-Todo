@@ -1,6 +1,6 @@
 const Note = ({ description, id, checked, toggleChecked, deleteTodo }) => {
   return (
-    <li className="todo-node" draggable="true">
+    <>
       <label className="todo-label">
         <input 
           type="checkbox" 
@@ -17,7 +17,7 @@ const Note = ({ description, id, checked, toggleChecked, deleteTodo }) => {
         data-id={id} 
         onClick={() => deleteTodo(id)}
       ></button>
-    </li>
+    </>
   )
 }
 

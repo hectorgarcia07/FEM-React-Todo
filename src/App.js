@@ -21,7 +21,6 @@ function App() {
       html.dataset.theme = newColorScheme === 'dark' ? 'dark-theme' : 'light-theme'
     });
 
-
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       html.dataset.theme = 'dark-theme'
     }else{
@@ -29,27 +28,30 @@ function App() {
     }
   }, [])
 
-  //will be used to set the todo's that is stored in localstorage
+  //will be used to initially get the ToDO's saved on local storage
+  //and save it as a state
   useEffect(() => {
     //if a todo array doesn't exist, create one
     if(!localStorage.getItem('todos')){
       localStorage.setItem("todos", JSON.stringify([]))
     }
 
+    //update the state
     setTodoList(JSON.parse(localStorage.getItem('todos')))
   }, [])
 
-  console.log(todoList)
-
   //will create a new todo, save it in localstorage and update the state
   const addNewTodo = (description) => {
-    const id = uuidv4()
+    const id = uuidv4() //gives it a unique ID
     const newTodo = { checked: false, description, id }
 
-    setTodoList( prevTodoList => prevTodoList.concat(newTodo) )
-    const todos = JSON.parse(localStorage.getItem('todos'))
-    todos.push(newTodo)
-    localStorage.setItem('todos', JSON.stringify(todos))
+    //Appends and returns new array with the new todo item
+    //and saves to local storage
+    setTodoList( prevTodoList => {
+      const updatedTodo = prevTodoList.concat(newTodo)
+      localStorage.setItem('todos', JSON.stringify(updatedTodo))
+      return updatedTodo
+    })
   }
 
   //will be used toggle the checked state of a Note component
@@ -57,6 +59,7 @@ function App() {
     setTodoList( prevTodoList => {
       //updates the new toggle state of the checked todo
       const updatedTodoList = prevTodoList.map(todo => {
+        //if ID matches, toggle the checked state
         if(todo.id === id){
           const updatedTodo = {
             ...todo,
@@ -100,11 +103,21 @@ function App() {
     return todoList
   }
 
+  //will eliminate all todo's that have been checked
   const clearCompleted = () => {
     setTodoList(prevTodoList => {
       const updatedTodo = prevTodoList.filter(todo => !todo.checked )
       localStorage.setItem('todos', JSON.stringify(updatedTodo))
       return updatedTodo
+    })
+  }
+
+  //will save the new re ordered Todos on local storage and
+  //update the state
+  const handleReorder = (updatedTodoOrder) => {
+    setTodoList(() => {
+      localStorage.setItem('todos', JSON.stringify(updatedTodoOrder))
+      return updatedTodoOrder
     })
   }
 
@@ -121,6 +134,7 @@ function App() {
             updateFilter={ updateFilter }
             filter={filter}
             clearCompleted={clearCompleted}
+            handleReorder={handleReorder}
           />
         </div>
         <p className="todo-info">Drag and drop to reorder list</p>
