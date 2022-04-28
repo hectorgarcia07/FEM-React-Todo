@@ -1,17 +1,8 @@
 import Note from './Note'
 
-import { Reorder, AnimatePresence } from "framer-motion"
-import TodoFilter from './TodoFilter'
+import { Reorder } from "framer-motion"
 
-const TodoList = ({ todoList, toggleChecked, deleteTodo, updateFilter, filter, clearCompleted, handleReorder }) => {
-  const todosLeft = todoList.reduce((total, todo) => {
-    if(!todo.checked){
-      return total + 1
-    }
-    return total
-  } , 0)
-
-
+const TodoList = ({ todoList, todoDispatch, handleReorder }) => {
   return (
     <>
       <Reorder.Group 
@@ -22,32 +13,18 @@ const TodoList = ({ todoList, toggleChecked, deleteTodo, updateFilter, filter, c
         layoutScroll
         style={{ overflowY: "scroll" }}
       >
-        <AnimatePresence>
-          { todoList.map( todoInfo => 
-            <Reorder.Item className="todo-node" key={todoInfo.id} value={todoInfo}
-              initial={{ width: '0 0 0%' }}
-              animate={{ width: '1 1 0%' }}
-              exit={{ width: '0 0 0%' }}
-            >
-              <Note 
-                key={todoInfo.id}
-                description={todoInfo.description} 
-                id={todoInfo.id}
-                checked={todoInfo.checked}
-                toggleChecked={toggleChecked}
-                deleteTodo={deleteTodo}
-                
-              />
-            </Reorder.Item>)
-          }
-        </AnimatePresence>
+        { todoList.map( todoInfo => 
+          <Reorder.Item className="todo-node" key={todoInfo.id} value={todoInfo}>
+            <Note 
+              key={todoInfo.id}
+              description={todoInfo.description} 
+              id={todoInfo.id}
+              checked={todoInfo.checked}
+              todoDispatch={todoDispatch}
+            />
+          </Reorder.Item>)
+        }
       </Reorder.Group>
-      <TodoFilter 
-        todosLeft={ todosLeft } 
-        updateFilter={ updateFilter } 
-        filter={filter}
-        clearCompleted={clearCompleted}
-       />
     </>
   )
 }

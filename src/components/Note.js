@@ -1,4 +1,6 @@
-const Note = ({ description, id, checked, toggleChecked, deleteTodo }) => {
+import TODO_ACTIONS from "../utils/todo-actions"
+
+const Note = ({ description, id, checked, todoDispatch }) => {
   return (
     <>
       <label className="todo-label">
@@ -6,7 +8,7 @@ const Note = ({ description, id, checked, toggleChecked, deleteTodo }) => {
           type="checkbox" 
           data-id={id} 
           checked={checked} 
-          onChange={() => toggleChecked(id)}
+          onChange={() => todoDispatch({ type: TODO_ACTIONS.TOGGLE_COMPLETE, payload: { id } })}
         />
         <p className={`todo-description ${checked ? 'todo-compleated' : ''}`} >
           { description }
@@ -15,7 +17,7 @@ const Note = ({ description, id, checked, toggleChecked, deleteTodo }) => {
       <button 
         className="cross-svg" 
         data-id={id} 
-        onClick={() => deleteTodo(id)}
+        onClick={() => todoDispatch({ type: TODO_ACTIONS.DELETE_TODO, payload: { id } })}
       ></button>
     </>
   )

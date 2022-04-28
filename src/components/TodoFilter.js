@@ -1,4 +1,6 @@
-const TodoFilter = ({ todosLeft, updateFilter, filter, clearCompleted }) => {
+import TODO_ACTIONS from "../utils/todo-actions"
+
+const TodoFilter = ({ todosLeft, filter, todoDispatch, setFilter }) => {
   return (
     <>
       <div className="todo-node todo-detail-node mobile-info">
@@ -7,7 +9,7 @@ const TodoFilter = ({ todosLeft, updateFilter, filter, clearCompleted }) => {
         </p>
         <button 
           className="todo-detail todo-clear"
-          onClick={clearCompleted}
+          onClick={() => todoDispatch({ type: TODO_ACTIONS.CLEAR_COMPLETED })}
         >Clear Compleated</button>
       </div>
       <div className="todo-node todo-filter">
@@ -18,22 +20,22 @@ const TodoFilter = ({ todosLeft, updateFilter, filter, clearCompleted }) => {
           <button 
             className={`todo-filter-option ${filter === 'all' ? 'active-option' : ''}`}
             id="todo-all"
-            onClick={() => updateFilter('all')}
+            onClick={() => setFilter('all')}
           >All</button> 
           <button 
             className={`todo-filter-option ${filter === 'active' ? 'active-option' : ''}`}
             id="todo-active"
-            onClick={() => updateFilter('active')}
+            onClick={() => setFilter('active')}
           >Active</button>
           <button 
             className={`todo-filter-option ${filter === 'completed' ? 'active-option' : ''}`}
             id="todo-complete"
-            onClick={() => updateFilter('completed')}
+            onClick={() => setFilter('completed')}
           >Compleated</button>
         </div>
         <button 
           className="todo-detail todo-clear desktop-clear-todo"
-          onClick={clearCompleted}
+          onClick={() => todoDispatch({ type: TODO_ACTIONS.CLEAR_COMPLETED })}
         >Clear Compleated</button>
       </div>
     </>

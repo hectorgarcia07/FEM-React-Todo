@@ -1,6 +1,8 @@
 import { useState } from "react"
 
-const NoteForm = ({ addNewTodo }) => {
+import TODO_ACTIONS from "../utils/todo-actions"
+
+const NoteForm = ({ todoDispatch }) => {
   const [ todoInfo, setTodoInfo ] = useState('')
 
   const updateTodoInfo = (e) => {
@@ -14,7 +16,7 @@ const NoteForm = ({ addNewTodo }) => {
 
     //create new todo if todoInfo is not empty
     if( filteredTodoInfo.length > 0 ){
-      addNewTodo(todoInfo)
+      todoDispatch({ type: TODO_ACTIONS.ADD_TODO, payload: { todoInfo } })
       setTodoInfo('')
     }
   }
