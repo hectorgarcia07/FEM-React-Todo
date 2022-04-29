@@ -1,5 +1,6 @@
 import TODO_ACTIONS from "../utils/todo-actions"
 
+//will be used to render all individual todos
 const Note = ({ description, id, checked, todoDispatch }) => {
   return (
     <>

@@ -2,6 +2,7 @@ import Note from './Note'
 
 import { Reorder } from "framer-motion"
 
+//Will be used to render all todo's 
 const TodoList = ({ todoList, todoDispatch, handleReorder }) => {
   return (
     <>

@@ -1,3 +1,4 @@
+//will control the theme toggler
 const Header = () => {
 
   //toggles the theme switcher

@@ -41,14 +41,13 @@ function App() {
 
     const todos = JSON.parse(localStorage.getItem('todos'))
 
-    //update the state
-    setFilteredTodo(todos)
-    setTodosLeft(countTodosLeft(todos))
+    setFilteredTodo(todos) //by default filter is set to all so all todos are saved
+    setTodosLeft(countTodosLeft(todos))//will be the number of uncompleted todos
     todoDispatch({ type: TODO_ACTIONS.INIT, payload: todos }) //initialize todos for filter state
   }, [])
 
-  //update the filtered todo list if todoList chanages or if filter
-  //is changed
+  //if filter or the todoList was updated, get the new current filtered Todo's and
+  //update it's state
   useEffect(() => {
     function getFilteredTodo(todoState) {
       if(filter === 'active'){
@@ -59,14 +58,26 @@ function App() {
       }
       return todoState
     }
-    
-    setTodosLeft(countTodosLeft(todoList))
+    localStorage.setItem('todos', JSON.stringify(todoList))
+
+    setTodosLeft(countTodosLeft(todoList))//get the number of todos that are unchecked
     setFilteredTodo(getFilteredTodo(todoList))
   }, [filter, todoList])
 
   /*
     Will udpate state based on actions:
     1. if it is INIT, then initialize the filterTodos with all the todos
+    2. TOGGLE_COMPLETE will set the selected todo's completed, if not completed, or
+       not completed if it was originally completed. Changes will reflet on localstorage.
+    3. ADD_TODO will add a todo to the current todoList state and udpate it via localstorage
+    4. DELETE_TODO will delete the todo that was selected and will update localstorage
+    5. ClEAR_COMPLETE will clear all completed todos from the todoList. Will update on localstorage
+    6. UPDATE_FILTER will update the filter status. IF Filter is 'all' then it will display all the 
+       todos and filteredTodo state will be updated. If filter is 'active' then filteredTodo will be
+       only of todos that are not checked. If filter is 'completed' then filteredTodo will be only
+       of checked todos.
+    7. SWAP_VALUES: when a user re-aranges a todo by clicking and draging, it will saved the two todos
+       that were swaped and it's change will reflect localstorage
   */
   function todoReducer(state, action){
     switch(action.type){
@@ -90,29 +101,24 @@ function App() {
     }
   }
 
+  //will be find the two obj in the TODO list that were swaped and swap them and 
+  //updates their state
   function swapTodoItems(state, { id_one, id_two }){
     const todoCopy = [...state]
     let index_one, index_two;
     let todo_obj_one, todo_obj_two
     
-    for(let i = 0, count = 0, length = state.length; i < length && count < 2; i++){
-      if(id_one === todoCopy[i].id){
-        index_one = i
-        count++
-      }
-      else if(id_two === todoCopy[i].id){
-        index_two = i
-        count++
-      }
-    }
+    //find the index of id_one and id_two to be used to know where to swap them
+    index_one = todoCopy.findIndex( todo => todo.id === id_one )
+    index_two = todoCopy.findIndex( todo => todo.id === id_two )
 
+    //make a copy of the two todo objects 
     todo_obj_one = { ...state[index_one] }
     todo_obj_two = { ...state[index_two] }
    
+    //swap both of the todo items
     todoCopy[index_one] = todo_obj_two
     todoCopy[index_two] = todo_obj_one
-
-    localStorage.setItem('todos', JSON.stringify(todoCopy))
     
     return todoCopy
   }
@@ -133,55 +139,40 @@ function App() {
     const newTodo = { checked: false, description, id }
 
     //Appends and returns new array with the new todo item
-    //and saves to local storage
-    const updatedTodo = todoState.concat(newTodo)
-    localStorage.setItem('todos', JSON.stringify(updatedTodo))
-
-    return updatedTodo
+    return todoState.concat(newTodo)
   }
 
-  //will be used toggle the checked state of a Note component
+  //will be used toggle the checked state of given todo with matching ID
   function toggleChecked(id, todoState) {
     //updates the new toggle state of the checked todo
     const updatedTodoList = todoState.map(todo => {
       //if ID matches, toggle the checked state
       if(todo.id === id){
-        const updatedTodo = {
-          ...todo,
-          checked: !todo.checked
-        }
-        return updatedTodo
+        return { ...todo, checked: !todo.checked }
       }
       return todo
     })
 
-    localStorage.setItem('todos', JSON.stringify(updatedTodoList))
     return updatedTodoList
   }
 
-  //will be used to delete a specific todo
+  //will be used to delete todo with given ID
   function deleteTodo(id, state){
-    const updatedTodoList = state.filter(todo => todo.id !== id)
-    localStorage.setItem('todos', JSON.stringify(updatedTodoList))
-
-    return updatedTodoList
+    return state.filter(todo => todo.id !== id)
   }
 
   //will eliminate all todo's that have been checked
   function clearCompleted (todoState) {
-    const updatedTodo = todoState.filter(todo => !todo.checked )
-    localStorage.setItem('todos', JSON.stringify(updatedTodo))
-
-    return updatedTodo
+    return todoState.filter(todo => !todo.checked )
   }
 
-  //will save the new re ordered Todos on local storage and
-  //update the state
+  //will be used to determine what two items were swaped and will get their ids
   const handleReorder = (updatedTodoOrder) => {
     let source_id = ''
     let target_id = ''
 
-    //will find the two items that were swaped and will update their positions
+    //compares each items from the todoList and updatedTodoOrder and will figure out which
+    //two items were swapped. it will saved their id's.
     for(let i = 0, count = 0, length = filteredTodo.length; i < length && count < 2; i++){
       if(count === 0 && updatedTodoOrder[i].id !== filteredTodo[i].id){
         count++
@@ -192,6 +183,7 @@ function App() {
         target_id = updatedTodoOrder[i].id
       }
     }
+    //will be used to perform the actual swapping.
     todoDispatch({ 
       type: TODO_ACTIONS.SWAP_VALUES, 
       payload: { id_one: source_id, id_two: target_id}
@@ -206,11 +198,8 @@ function App() {
           <NoteForm todoDispatch={todoDispatch} />
           <TodoList
             todoList={ filteredTodo }
-            filter={filter}
             handleReorder={handleReorder}
             todoDispatch={todoDispatch}
-            todosLeft={todosLeft}
-            setFilter={setFilter}
           />
           <TodoFilter 
             todosLeft={ todosLeft } 

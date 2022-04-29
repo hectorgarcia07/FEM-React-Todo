@@ -1,5 +1,7 @@
 import TODO_ACTIONS from "../utils/todo-actions"
 
+//will change the types of filters 'all', 'compleated', active'
+//will also be able to clear all current completed todos
 const TodoFilter = ({ todosLeft, filter, todoDispatch, setFilter }) => {
   return (
     <>
