@@ -1,8 +1,11 @@
-import TODO_ACTIONS from "../utils/todo-actions"
+import { useDispatch } from "react-redux"
+import { clearCompleted } from "../reducers/todoReducer"
 
 //will change the types of filters 'all', 'compleated', active'
 //will also be able to clear all current completed todos
-const TodoFilter = ({ todosLeft, filter, todoDispatch, setFilter }) => {
+const TodoFilter = ({ todosLeft, filter, setFilter }) => {
+  const dispatch = useDispatch()
+
   return (
     <>
       <div className="todo-node todo-detail-node mobile-info">
@@ -11,7 +14,7 @@ const TodoFilter = ({ todosLeft, filter, todoDispatch, setFilter }) => {
         </p>
         <button 
           className="todo-detail todo-clear"
-          onClick={() => todoDispatch({ type: TODO_ACTIONS.CLEAR_COMPLETED })}
+          onClick={() => dispatch(clearCompleted()) }
         >Clear Compleated</button>
       </div>
       <div className="todo-node todo-filter">
@@ -37,7 +40,7 @@ const TodoFilter = ({ todosLeft, filter, todoDispatch, setFilter }) => {
         </div>
         <button 
           className="todo-detail todo-clear desktop-clear-todo"
-          onClick={() => todoDispatch({ type: TODO_ACTIONS.CLEAR_COMPLETED })}
+          onClick={() => dispatch(clearCompleted()) }
         >Clear Compleated</button>
       </div>
     </>

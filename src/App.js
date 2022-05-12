@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid"; //used to give Note a unique identifier
 import { useEffect, useState, useReducer } from 'react'
+import { useSelector } from "react-redux";
 
 import Header from './components/Header'
 import NoteForm from './components/NoteForm'
@@ -13,6 +14,8 @@ function App() {
   const [ todoList, todoDispatch ] = useReducer(todoReducer, [])
   const [ filter, setFilter ] = useState('all')
   const [ todosLeft, setTodosLeft ] = useState(0)
+
+  const todos = useSelector( state => state.todos )
 
   //will be used to initially set theme based on user system setting
   useEffect(() => {
@@ -34,13 +37,7 @@ function App() {
   //will be used to initially get the ToDO's saved on local storage
   //and save it as a state
   useEffect(() => {
-    //if a todo array doesn't exist, create one
-    if(!localStorage.getItem('todos')){
-      localStorage.setItem("todos", JSON.stringify([]))
-    }
-
-    const todos = JSON.parse(localStorage.getItem('todos'))
-
+    console.log(todos)
     setFilteredTodo(todos) //by default filter is set to all so all todos are saved
     setTodosLeft(countTodosLeft(todos))//will be the number of uncompleted todos
     todoDispatch({ type: TODO_ACTIONS.INIT, payload: todos }) //initialize todos for filter state

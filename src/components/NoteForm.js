@@ -1,10 +1,13 @@
 import { useState } from "react"
 
-import TODO_ACTIONS from "../utils/todo-actions"
+import { addNewTodo } from "../reducers/todoReducer"
+import { useDispatch } from "react-redux"
 
 //this component will save the state of the form and will
 //send it to the app component to add and create a new state
-const NoteForm = ({ todoDispatch }) => {
+const NoteForm = () => {
+  const dispatch = useDispatch()
+
   const [ todoInfo, setTodoInfo ] = useState('')
 
   const updateTodoInfo = (e) => {
@@ -18,7 +21,7 @@ const NoteForm = ({ todoDispatch }) => {
 
     //create new todo if todoInfo is not empty
     if( filteredTodoInfo.length > 0 ){
-      todoDispatch({ type: TODO_ACTIONS.ADD_TODO, payload: { todoInfo } })
+      dispatch(addNewTodo(filteredTodoInfo))
       setTodoInfo('')
     }
   }

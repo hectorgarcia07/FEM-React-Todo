@@ -3,7 +3,7 @@ import Note from './Note'
 import { Reorder } from "framer-motion"
 
 //Will be used to render all todo's 
-const TodoList = ({ todoList, todoDispatch, handleReorder }) => {
+const TodoList = ({ todoList, handleReorder }) => {
   return (
     <>
       <Reorder.Group 
@@ -15,13 +15,21 @@ const TodoList = ({ todoList, todoDispatch, handleReorder }) => {
         style={{ overflowY: "scroll" }}
       >
         { todoList.map( todoInfo => 
-          <Reorder.Item className="todo-node" key={todoInfo.id} value={todoInfo}>
+          <Reorder.Item 
+            className="todo-node" 
+            key={todoInfo.id} 
+            value={todoInfo}
+            onDragEnd={
+              (event, info) => {
+                console.log("event", event.target)
+              }
+            }
+          >
             <Note 
               key={todoInfo.id}
               description={todoInfo.description} 
               id={todoInfo.id}
               checked={todoInfo.checked}
-              todoDispatch={todoDispatch}
             />
           </Reorder.Item>)
         }
