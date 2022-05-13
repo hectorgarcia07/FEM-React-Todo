@@ -1,9 +1,12 @@
 import { v4 as uuidv4 } from "uuid"; //used to give Note a unique identifier
 
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice , current} from "@reduxjs/toolkit"
 
 //will get the todo from local storage
-const initialState = JSON.parse(localStorage.getItem("todos") ?? "[]")
+const initialState = {
+  todoList: JSON.parse(localStorage.getItem("todos") ?? "[]"),
+  todoFilter: 'ALL'
+}
 
 const todoSlice = createSlice({
   name: 'todos',
@@ -39,11 +42,32 @@ const todoSlice = createSlice({
       return state.filter(todo => todo.id !== action.payload)
     },
     //will eliminate all todo's that have been checked
-    clearCompleted (state, action) {
+    clearCompleted(state, action) {
       return state.filter(todo => !todo.checked )
+    }, 
+    //will update the filter of the todo
+    updateTodoFilter(state, action){
+      return { ...state, todoFilter: action.payload }
+    },
+    //will get the filterd todo list
+    getFilteredTodoList(state, action){
+      console.log(current(state.todoList))
+      if( state.todoFilter === 'ALL'){
+        return state.todoList
+      }
+      else if(state.todoFilter === 'COMPLETED'){
+        return state.todoList.filter( todo => todo.checked )
+      }
+      return state.todoList.filter( todo => !todo.checked )
     }
   }
 })
 
-export const { toggleChecked, addNewTodo, deleteTodo, clearCompleted } = todoSlice.actions
+export const { 
+  toggleChecked,
+  addNewTodo, 
+  deleteTodo, 
+  clearCompleted,
+  updateTodoFilter,
+  getFilteredTodoList } = todoSlice.actions
 export default todoSlice.reducer

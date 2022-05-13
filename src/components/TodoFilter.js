@@ -1,10 +1,11 @@
-import { useDispatch } from "react-redux"
-import { clearCompleted } from "../reducers/todoReducer"
+import { useDispatch, useSelector } from "react-redux"
+import { clearCompleted, updateTodoFilter } from "../reducers/todoReducer"
 
 //will change the types of filters 'all', 'compleated', active'
 //will also be able to clear all current completed todos
-const TodoFilter = ({ todosLeft, filter, setFilter }) => {
+const TodoFilter = ({ todosLeft }) => {
   const dispatch = useDispatch()
+  const filter = useSelector( state => state.todoFilter )
 
   return (
     <>
@@ -25,17 +26,17 @@ const TodoFilter = ({ todosLeft, filter, setFilter }) => {
           <button 
             className={`todo-filter-option ${filter === 'all' ? 'active-option' : ''}`}
             id="todo-all"
-            onClick={() => setFilter('all')}
+            onClick={() => dispatch(updateTodoFilter('ALL')) }
           >All</button> 
           <button 
             className={`todo-filter-option ${filter === 'active' ? 'active-option' : ''}`}
             id="todo-active"
-            onClick={() => setFilter('active')}
+            onClick={() => dispatch(updateTodoFilter('ACTIVE')) }
           >Active</button>
           <button 
             className={`todo-filter-option ${filter === 'completed' ? 'active-option' : ''}`}
             id="todo-complete"
-            onClick={() => setFilter('completed')}
+            onClick={() => dispatch(updateTodoFilter('COMPLETED')) }
           >Compleated</button>
         </div>
         <button 
