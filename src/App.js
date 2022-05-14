@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 
-import { getFilteredTodoList } from './reducers/todoReducer'
+import { updateTodoList } from './reducers/todoReducer'
 
 import Header from './components/Header'
 import NoteForm from './components/NoteForm'
@@ -10,8 +10,10 @@ import TodoFilter from "./components/TodoFilter";
 
 function App() {
   const dispatch = useDispatch()
-  const todoList = useSelector( state => state.todos )
-  const filteredTodo = dispatch( getFilteredTodoList() )
+
+  const todoList = useSelector( state => state.todoList.todoList )
+  const filterType = useSelector( state => state.todoList.filterType )
+  const filteredTodo = getFilteredTodoList()
 
   //will be used to initially set theme based on user system setting
   useEffect(() => {
@@ -32,30 +34,29 @@ function App() {
 
   //will be find the two obj in the TODO list that were swaped and swap them and 
   //updates their state
-  function swapTodoItems(state, { id_one, id_two }){
-    const todoCopy = [...state]
+  function swapTodoItems({ source_id, target_id }){
+    const todoCopy = [...todoList]
     let index_one, index_two;
     let todo_obj_one, todo_obj_two
     
-    //find the index of id_one and id_two to be used to know where to swap them
-    index_one = todoCopy.findIndex( todo => todo.id === id_one )
-    index_two = todoCopy.findIndex( todo => todo.id === id_two )
+    //find the index of source_id and target_id to be used to know where to swap them
+    index_one = todoCopy.findIndex( todo => todo.id === source_id )
+    index_two = todoCopy.findIndex( todo => todo.id === target_id )
 
     //make a copy of the two todo objects 
-    todo_obj_one = { ...state[index_one] }
-    todo_obj_two = { ...state[index_two] }
+    todo_obj_one = { ...todoList[index_one] }
+    todo_obj_two = { ...todoList[index_two] }
    
     //swap both of the todo items
     todoCopy[index_one] = todo_obj_two
     todoCopy[index_two] = todo_obj_one
     
-    return todoCopy
+    dispatch(updateTodoList(todoCopy))
   }
-/* 
+ 
   //will be used to determine what two items were swaped and will get their ids
   const handleReorder = (updatedTodoOrder) => {
-    let source_id = ''
-    let target_id = ''
+    let source_id, target_id = ''
 
     //compares each items from the todoList and updatedTodoOrder and will figure out which
     //two items were swapped. it will saved their id's.
@@ -69,26 +70,20 @@ function App() {
         target_id = updatedTodoOrder[i].id
       }
     }
-    //will be used to perform the actual swapping.
-    todoDispatch({ 
-      type: TODO_ACTIONS.SWAP_VALUES, 
-      payload: { id_one: source_id, id_two: target_id}
-    })
-  }
- */
 
-  const getTodosLeft = () => {
-    return todoList.reduce((total, todo) => {
-      if(!todo.checked){
-        return total + 1
-      }
-      return total
-    } , 0)
+    swapTodoItems( { source_id, target_id } )
   }
 
-  const handleReorder = ( state ) => {
-    return state
+  function getFilteredTodoList(){
+    if (filterType === 'ALL'){
+      return todoList
+    }
+    else if( filterType === 'COMPLETED'){
+      return todoList.filter( todo => todo.checked)
+    }
+    return todoList.filter( todo => !todo.checked)
   }
+
   return (
     <main className="container">
       <div className='background-container'>
@@ -96,12 +91,10 @@ function App() {
           <Header />
           <NoteForm />
           <TodoList
-            todoList={ filteredTodo }
             handleReorder={handleReorder}
+            todoList={ filteredTodo }
           />
-          <TodoFilter 
-            todosLeft={ getTodosLeft( todoList ) } 
-          />
+          <TodoFilter />
         </div>
         <p className="todo-info">Drag and drop to reorder list</p>
       </div>

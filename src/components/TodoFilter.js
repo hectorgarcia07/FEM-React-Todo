@@ -3,9 +3,17 @@ import { clearCompleted, updateTodoFilter } from "../reducers/todoReducer"
 
 //will change the types of filters 'all', 'compleated', active'
 //will also be able to clear all current completed todos
-const TodoFilter = ({ todosLeft }) => {
+const TodoFilter = () => {
   const dispatch = useDispatch()
-  const filter = useSelector( state => state.todoFilter )
+  const filter = useSelector( state => state.todoList.filterType )
+  const todosLeft = useSelector( ({todoList}) => {
+    return todoList.todoList.reduce((total, todo) => {
+      if(!todo.checked){
+        return total + 1
+      }
+      return total
+    } , 0)
+  })
 
   return (
     <>
@@ -24,17 +32,17 @@ const TodoFilter = ({ todosLeft }) => {
         </p>
         <div className="todo-filter-container">
           <button 
-            className={`todo-filter-option ${filter === 'all' ? 'active-option' : ''}`}
+            className={`todo-filter-option ${filter === 'ALL' ? 'active-option' : ''}`}
             id="todo-all"
             onClick={() => dispatch(updateTodoFilter('ALL')) }
           >All</button> 
           <button 
-            className={`todo-filter-option ${filter === 'active' ? 'active-option' : ''}`}
+            className={`todo-filter-option ${filter === 'ACTIVE' ? 'active-option' : ''}`}
             id="todo-active"
             onClick={() => dispatch(updateTodoFilter('ACTIVE')) }
           >Active</button>
           <button 
-            className={`todo-filter-option ${filter === 'completed' ? 'active-option' : ''}`}
+            className={`todo-filter-option ${filter === 'COMPLETED' ? 'active-option' : ''}`}
             id="todo-complete"
             onClick={() => dispatch(updateTodoFilter('COMPLETED')) }
           >Compleated</button>

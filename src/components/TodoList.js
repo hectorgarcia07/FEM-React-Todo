@@ -19,11 +19,7 @@ const TodoList = ({ todoList, handleReorder }) => {
             className="todo-node" 
             key={todoInfo.id} 
             value={todoInfo}
-            onDragEnd={
-              (event, info) => {
-                console.log("event", event.target)
-              }
-            }
+            
           >
             <Note 
               key={todoInfo.id}
