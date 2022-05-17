@@ -31,7 +31,7 @@ const todoSlice = createSlice({
       }
 
       //Adds a new todo item
-      state.todoList.push(newTodo)
+      state.todoList.unshift(newTodo)
 
       //save to localstorage
       localStorage.setItem('todos', JSON.stringify(state.todoList))
