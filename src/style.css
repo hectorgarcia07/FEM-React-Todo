@@ -5,18 +5,6 @@
   background: var(--theme-icon) no-repeat center right;
 }
 
-.todo-description {
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-}
-
-.cross-svg {
-  margin-left: auto;
-  background: url(images/icon-cross.svg) no-repeat center;
-  flex-basis: 1rem;
-}
-
 /* ------------------------------------------ */
 
 .todo-detail-node {
@@ -93,12 +81,6 @@
 .desktop-items-left,
 .desktop-clear-todo {
   display: none;
-}
-
-.todo-compleated {
-  text-decoration: line-through;
-  color: var(--fadded-text-color);
-  transition: 0.3s;
 }
 
 @media only screen and (max-width: 390px) {
