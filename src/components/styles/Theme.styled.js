@@ -57,4 +57,4 @@ export const light = {
 }
 
 export const minWidth = '375px'
-export const maxWidth = '390px'
+export const maxWidth = '390px' 
