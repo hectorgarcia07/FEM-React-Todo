@@ -3,6 +3,8 @@ import { useState } from "react"
 import { addNewTodo } from "../reducers/todoReducer"
 import { useDispatch } from "react-redux"
 
+import { NoteFormStyle } from "./styles/NoteForm.styled"
+
 //this component will save the state of the form and will
 //send it to the app component to add and create a new state
 const NoteForm = () => {
@@ -27,12 +29,12 @@ const NoteForm = () => {
   }
 
   return (
-    <form className="note-input" onSubmit={createTodoNode}>
+    <NoteFormStyle onSubmit={createTodoNode}>
       <button
         id="create-todo" 
-        className="svg-plus-btn todo-btn" 
+        className="svg-plus-btn" 
         type="submit"
-        ></button>
+      ></button>
       <input 
         id="todo-input-form" 
         className="input-note" 
@@ -42,7 +44,7 @@ const NoteForm = () => {
         value={todoInfo}
         onChange={updateTodoInfo}
       />
-  </form>
+  </NoteFormStyle>
   )
 }
 

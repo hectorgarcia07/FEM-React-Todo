@@ -1,12 +1,15 @@
 import { toggleChecked, deleteTodo } from "../reducers/todoReducer"
 import { useDispatch } from "react-redux"
 
+import { TodoLabel } from "./styles/TodoLabel.styled"
+import { CrossBtn } from "./styles/Button.styled"
+
 //will be used to render all individual todos
 const Note = ({ description, id, checked }) => {
   const dispatch = useDispatch()
   return (
     <>
-      <label className="todo-label">
+      <TodoLabel>
         <input 
           type="checkbox" 
           data-id={id} 
@@ -16,12 +19,11 @@ const Note = ({ description, id, checked }) => {
         <p className={`todo-description ${checked ? 'todo-compleated' : ''}`} >
           { description }
         </p>
-      </label>
-      <button 
-        className="cross-svg" 
+      </TodoLabel>
+      <CrossBtn 
         data-id={id} 
         onClick={() => dispatch(deleteTodo( id ))}
-      ></button>
+      ></CrossBtn>
     </>
   )
 }

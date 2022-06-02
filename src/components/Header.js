@@ -1,26 +1,20 @@
-//will control the theme toggler
-const Header = () => {
+import { HeaderDisplay } from "./styles/HeaderDisplay.styled"
+import { HeaderTitle } from "./styles/HeaderTitle.styled"
+import { ThemeContainer } from "./styles/Containers.styled"
+import { ThemeToggleBtn } from "./styles/Button.styled"
 
-  //toggles the theme switcher
-  const themeToggle = () => {
-    const html = document.getElementsByTagName('html')[0]
-    
-    if(html.dataset.theme === 'light-theme'){
-      html.dataset.theme = 'dark-theme'
-    }else{
-      html.dataset.theme = 'light-theme'
-    }
-  }
+//will control the theme toggler
+const Header = ({ changeTheme }) => {
 
   return(
-    <div className="header-display">
+    <HeaderDisplay>
       <header>
-        <h1 className="header-title">TO DO</h1>
+        <HeaderTitle>TO DO</HeaderTitle>
       </header>
-      <div className="theme-container" id="theme-toggle">
-        <button onClick={themeToggle} className="svg-theme-btn todo-btn"></button>
-      </div>
-    </div>
+      <ThemeContainer id="theme-toggle">
+        <ThemeToggleBtn onClick={() => changeTheme() }></ThemeToggleBtn>
+      </ThemeContainer>
+    </HeaderDisplay>
   )
 }
 

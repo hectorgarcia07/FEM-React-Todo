@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 
 import { updateTodoList } from './reducers/todoReducer'
@@ -8,9 +8,15 @@ import NoteForm from './components/NoteForm'
 import TodoList from './components/TodoList'
 import TodoFilter from "./components/TodoFilter";
 
+import { ThemeProvider } from 'styled-components'
+import { GlobalStyle } from './components/styles/Global'
+import { BackgroundContainer, ContentContainer } from './components/styles/Containers.styled'
+import { light, dark } from './components/styles/Theme.styled'
+
 function App() {
   const dispatch = useDispatch()
 
+  const [theme, toggleTheme ] = useState( light )
   const todoList = useSelector( state => state.todoList.todoList )
   const filterType = useSelector( state => state.todoList.filterType )
   const filteredTodo = getFilteredTodoList()
@@ -84,21 +90,29 @@ function App() {
     return todoList.filter( todo => !todo.checked)
   }
 
+  function changeTheme(){
+    toggleTheme( prevTheme => prevTheme.name === 'dark-theme' ? light : dark )
+  }
+
   return (
-    <main className="container">
-      <div className='background-container'>
-        <div className="header-container width-container">
-          <Header />
-          <NoteForm />
-          <TodoList
-            handleReorder={handleReorder}
-            todoList={ filteredTodo }
-          />
-          <TodoFilter />
-        </div>
-        <p className="todo-info">Drag and drop to reorder list</p>
-      </div>
-    </main>
+    <ThemeProvider theme={ theme }>
+      <GlobalStyle />
+      <main>
+        <BackgroundContainer >
+          <ContentContainer >
+            <Header changeTheme={changeTheme} />
+            <NoteForm />
+            <TodoList
+              handleReorder={handleReorder}
+              todoList={ filteredTodo }
+            />
+            <TodoFilter />
+          </ContentContainer>
+          <p className="todo-info">Drag and drop to reorder list</p>
+        </BackgroundContainer>
+      </main>
+    </ThemeProvider>
+    
   );
 }
 
