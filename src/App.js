@@ -10,7 +10,7 @@ import TodoFilter from "./components/TodoFilter";
 
 import { ThemeProvider } from 'styled-components'
 import { GlobalStyle } from './components/styles/Global'
-import { BackgroundContainer, ContentContainer } from './components/styles/Containers.styled'
+import { BackgroundContainer, ContentContainer, Footer } from './components/styles/Containers.styled'
 import { light, dark } from './components/styles/Theme.styled'
 
 function App() {
@@ -108,7 +108,7 @@ function App() {
             />
             <TodoFilter />
           </ContentContainer>
-          <p className="todo-info">Drag and drop to reorder list</p>
+          <Footer className="todo-info">Drag and drop to reorder list</Footer>
         </BackgroundContainer>
       </main>
     </ThemeProvider>

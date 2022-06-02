@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import { minWidth, maxWidth } from './Theme.styled'
 
 export const BackgroundContainer = styled.div`
@@ -55,4 +55,49 @@ export const ContentContainer = styled.div`
 `
 export const ThemeContainer = styled.div`
   align-self: end;
+`
+
+export const InfoContainer = styled.div`
+  display: flex;
+  padding: 0 0.8rem 0 1rem;
+  background-color: ${({theme}) => theme.colors.nodeBackgroundColor};
+  color: ${({theme}) => theme.colors.fontColor};
+  font-size: 1rem;
+  border-bottom: 1px solid ${({theme}) => theme.colors.borderBottomColor};
+  transition: background-color 0.5s;
+
+  ${ props => props.mobile && css`
+    justify-content: space-between;
+    color: hsl(234, 11%, 52%);
+    padding: 0;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border: none;
+
+    @media( min-width: ${minWidth}){
+      display: none;
+    }
+  `};
+
+  ${ props => props.desktop && css`
+    justify-content: space-evenly;
+    border: none;
+    border-radius: 5px;
+    margin-top: 1rem;
+    padding: 0;
+
+    &:last-child {
+      border-radius: 0px;
+    }
+  `};
+
+`
+export const TodoFilterContainer = styled.div`
+  display: flex;
+`
+
+export const Footer = styled.p`
+  text-align: center;
+  color: ${({theme}) => theme.colors.fadedTextColor };
+  padding: 2rem;
 `

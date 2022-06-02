@@ -1,5 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
 import { clearCompleted, updateTodoFilter } from "../reducers/todoReducer"
+import { InfoContainer, TodoFilterContainer } from "../components/styles/Containers.styled"
+import { TodosLeft } from "./styles/TodosLeft.styled"
+import { TodoClear, TodoFilterBtn } from "./styles/Button.styled"
 
 //will change the types of filters 'all', 'compleated', active'
 //will also be able to clear all current completed todos
@@ -17,41 +20,40 @@ const TodoFilter = () => {
 
   return (
     <>
-      <div className="todo-node todo-detail-node mobile-info">
-        <p className="todo-detail todo-num-items">
+      <InfoContainer mobile >
+        <TodosLeft className="todo-detail">
           {todosLeft} {todosLeft === 1 ? 'item' : 'items' } left
-        </p>
-        <button 
-          className="todo-detail todo-clear"
+        </TodosLeft>
+        <TodoClear 
           onClick={() => dispatch(clearCompleted()) }
-        >Clear Compleated</button>
-      </div>
-      <div className="todo-node todo-filter">
-        <p className="todo-detail desktop-items-left todo-num-items">
+        >Clear Compleated</TodoClear>
+      </InfoContainer>
+      <InfoContainer desktop >
+        <TodosLeft desktop >
           {todosLeft} {todosLeft === 1 ? 'item' : 'items' } left
-        </p>
-        <div className="todo-filter-container">
-          <button 
-            className={`todo-filter-option ${filter === 'ALL' ? 'active-option' : ''}`}
+        </TodosLeft>
+        <TodoFilterContainer >
+          <TodoFilterBtn 
+            className={`${filter === 'ALL' ? 'active-option' : ''}`}
             id="todo-all"
             onClick={() => dispatch(updateTodoFilter('ALL')) }
-          >All</button> 
-          <button 
-            className={`todo-filter-option ${filter === 'ACTIVE' ? 'active-option' : ''}`}
+          >All</TodoFilterBtn> 
+          <TodoFilterBtn 
+            className={`${filter === 'ACTIVE' ? 'active-option' : ''}`}
             id="todo-active"
             onClick={() => dispatch(updateTodoFilter('ACTIVE')) }
-          >Active</button>
-          <button 
-            className={`todo-filter-option ${filter === 'COMPLETED' ? 'active-option' : ''}`}
+          >Active</TodoFilterBtn>
+          <TodoFilterBtn 
+            className={`${filter === 'COMPLETED' ? 'active-option' : ''}`}
             id="todo-complete"
             onClick={() => dispatch(updateTodoFilter('COMPLETED')) }
-          >Compleated</button>
-        </div>
-        <button 
-          className="todo-detail todo-clear desktop-clear-todo"
+          >Compleated</TodoFilterBtn>
+        </TodoFilterContainer>
+        <TodoClear
+          desktop 
           onClick={() => dispatch(clearCompleted()) }
-        >Clear Compleated</button>
-      </div>
+        >Clear Compleated</TodoClear>
+      </InfoContainer>
     </>
   )
 }
