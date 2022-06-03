@@ -59,6 +59,7 @@ Users should be able to:
 - Framer-Motion
 - Semantic HTML5 markup
 - CSS custom properties
+- Styled Components
 - Flexbox
 - Mobile-first workflow
 
@@ -66,11 +67,12 @@ Users should be able to:
 
 Decided to refeactor my previous solution that used vainlla JS and CSS and incorporated the
 React framework. I also used Framer Motion to handle transitions and reordering of the todo list
-to work well on desktop and mobile devices.
+to work well on desktop and mobile devices. I just recently refactored again to use Styled Component.
 
 ### Continued development
 
-For future development, I would like to transform this into a full stack application. I will also use Express.js to handle routing and MongoDB to save users and their ‘todo’ data.
+For future development, I would like to transform this into a full stack application. I will also use Express.js to handle routing and MongoDB to save users and their ‘todo’ data. I would also like
+to use TypeScript.
 
 ### Useful resources
 
